@@ -12,9 +12,16 @@ Here's a walkthrough of implemented user stories.
 <img src='http://http://g.recordit.co/cURdPMSHT2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 ```
 
+## Code Reviews
+
+This code was reviewed by @username and @otherusername. 
+
+* [Link to PR #X](#) - reviewed by @username.
+* [Link to PR #Y](#) - reviewed by @otherusername.   
+
 
 ## Required User Stories
-
+- [ ] I have at least three code reviews from others.
 - [x] The user can move their character with the arrow keys. 
 - [x] The user can see a monster.
 - [ ] The monster is placed at a random location within the game boundaries.
