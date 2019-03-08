@@ -22,6 +22,10 @@ document.body.appendChild(canvas);
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
+let startTime = Date.now();
+const SECONDS_PER_ROUND = 30;
+let elapsedTime = 0;
+
 function loadImages() {
   bgImage = new Image();
   bgImage.onload = function () {
@@ -87,6 +91,10 @@ function setupKeyboardListeners() {
  *  If you change the value of 5, the player will move at a different rate.
  */
 let update = function () {
+  // Update the time.
+  elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+
+
   if (38 in keysDown) { // Player is holding up key
     heroY -= 5;
   }
@@ -128,6 +136,7 @@ var render = function () {
   if (monsterReady) {
     ctx.drawImage(monsterImage, monsterX, monsterY);
   }
+  ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100);
 };
 
 /**
