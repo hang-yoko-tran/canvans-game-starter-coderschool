@@ -23,7 +23,7 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 5;
+const SECONDS_PER_ROUND = 30;
 let elapsedTime = 0;
 let score = 0;
 
@@ -95,7 +95,7 @@ function setupKeyboardListeners() {
 let update = function () {
   // Update the time.
   elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-  document.getElementById("timer").innerHTML = 30 - elapsedTime;
+  
   if (elapsedTime)
 
     if (38 in keysDown) { // Player is holding up key
@@ -169,6 +169,7 @@ var render = function () {
       ctx.drawImage(monsterImage, monsterX, monsterY);
     }
     ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 10, 10);
+    document.getElementById("timer").innerHTML = 30 - elapsedTime;
   }else{
     ctx.fillText(`GAME OVER`, 400, 400);
     return;
