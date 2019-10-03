@@ -23,8 +23,10 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 30;
+const SECONDS_PER_ROUND = 5;
 let elapsedTime = 0;
+let score = 0;
+
 
 function loadImages() {
   bgImage = new Image();
@@ -93,11 +95,12 @@ function setupKeyboardListeners() {
 let update = function () {
   // Update the time.
   elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById("timer").innerHTML = 30 - elapsedTime;
+  if (elapsedTime)
 
-
-  if (38 in keysDown) { // Player is holding up key
-    heroY -= 5;
-  }
+    if (38 in keysDown) { // Player is holding up key
+      heroY -= 5;
+    }
   if (40 in keysDown) { // Player is holding down key
     heroY += 5;
   }
@@ -107,6 +110,30 @@ let update = function () {
   if (39 in keysDown) { // Player is holding right key
     heroX += 5;
   }
+
+
+  // Hero going left off screen
+  if (heroX <= 0) {
+    heroX = 0
+  }
+
+  // Hero going right off screen
+  if (heroX >= 480) {
+    heroX = 480;
+  }
+
+  // Hero going up off screen
+  if (heroY <= 0) {
+    heroY = 0
+  }
+
+  // Hero going down off screen
+  console.log('heroY', heroY)
+  if (heroY >= 450) {
+    heroY = 450;
+  }
+
+
 
   // Check if player and monster collided. Our images
   // are about 32 pixels big.
@@ -118,8 +145,11 @@ let update = function () {
   ) {
     // Pick a new location for the monster.
     // Note: Change this to place the monster at a new, random location.
-    monsterX = monsterX + 50;
-    monsterY = monsterY + 70;
+    score++;
+    console.log('score', score);
+    document.getElementById("score").innerHTML = score;
+    monsterX = Math.floor(Math.random() * canvas.width - 10);
+    monsterY = Math.floor(Math.random() * canvas.height - 10);
   }
 };
 
@@ -127,16 +157,23 @@ let update = function () {
  * This function, render, runs as often as possible.
  */
 var render = function () {
-  if (bgReady) {
-    ctx.drawImage(bgImage, 0, 0);
+  ctx.font ="16px ArialÏ"
+  if (elapsedTime <= SECONDS_PER_ROUND) {
+    if (bgReady) {
+      ctx.drawImage(bgImage, 0, 0);
+    }
+    if (heroReady) {
+      ctx.drawImage(heroImage, heroX, heroY);
+    }
+    if (monsterReady) {
+      ctx.drawImage(monsterImage, monsterX, monsterY);
+    }
+    ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 10, 10);
+  }else{
+    ctx.fillText(`GAME OVER`, 400, 400);
+    return;
   }
-  if (heroReady) {
-    ctx.drawImage(heroImage, heroX, heroY);
-  }
-  if (monsterReady) {
-    ctx.drawImage(monsterImage, monsterX, monsterY);
-  }
-  ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 100);
+
 };
 
 /**
@@ -145,7 +182,7 @@ var render = function () {
  * render (based on the state of our game, draw the right things)
  */
 var main = function () {
-  update(); 
+  update();
   render();
   // Request to do this again ASAP. This is a special method
   // for web browsers. 
