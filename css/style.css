@@ -28,3 +28,8 @@ input{
    width: 200px;
    height: 25px;
 }
+
+#high-score{
+    font-size: 15px;
+    margin-right: 15px;
+}
