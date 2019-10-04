@@ -12,21 +12,43 @@ We also load all of our images.
 
 let canvas;
 let ctx;
-
+let username = 'Anonymous';
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
 canvas.width = 512;
 canvas.height = 480;
-document.body.appendChild(canvas);
+document.getElementById("canvas").appendChild(canvas);
 
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
+
 
 let startTime = Date.now();
 const SECONDS_PER_ROUND = 30;
 let elapsedTime = 0;
 let score = 0;
 
+
+function getAppState() {
+  return JSON.parse(localStorage.getItem('appSate')) || {
+    currentHighScore: 0,
+    bestPlayer: username,
+    currentUser: document.getElementById('user-name').innerHTML || 'Anonymous',
+  }
+
+}
+
+function save(appState) {
+  return localStorage.setItem('appSate', JSON.stringify(appState))
+}
+
+function signIn() {
+  username = document.getElementById("user-name").value;
+  appState = getAppState();
+  appState.currentUser = username;
+  document.getElementById("take-username").innerHTML = username;
+  save(appState);
+}
 
 function loadImages() {
   bgImage = new Image();
@@ -95,7 +117,7 @@ function setupKeyboardListeners() {
 let update = function () {
   // Update the time.
   elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-  
+
   if (elapsedTime)
 
     if (38 in keysDown) { // Player is holding up key
@@ -128,7 +150,6 @@ let update = function () {
   }
 
   // Hero going down off screen
-  console.log('heroY', heroY)
   if (heroY >= 450) {
     heroY = 450;
   }
@@ -146,19 +167,32 @@ let update = function () {
     // Pick a new location for the monster.
     // Note: Change this to place the monster at a new, random location.
     score++;
-    console.log('score', score);
+    // console.log("score");
+
     document.getElementById("score").innerHTML = score;
     monsterX = Math.floor(Math.random() * canvas.width - 10);
     monsterY = Math.floor(Math.random() * canvas.height - 10);
+    const appState = getAppState();
+    console.log('appstore', appState);
+    if (score > appState.currentHighScore) {
+      appState.currentHighScore = score;
+      appState.bestPlayer = username;
+    }
+    save(appState);
   }
 };
+
+
+function reset() {
+  window.location.reload()
+}
 
 /**
  * This function, render, runs as often as possible.
  */
 var render = function () {
-  ctx.font ="16px ArialÏ"
-  if (elapsedTime <= SECONDS_PER_ROUND) {
+  ctx.font = "16px ArialÏ"
+  if (elapsedTime < SECONDS_PER_ROUND) {
     if (bgReady) {
       ctx.drawImage(bgImage, 0, 0);
     }
@@ -170,9 +204,9 @@ var render = function () {
     }
     ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 10, 10);
     document.getElementById("timer").innerHTML = 30 - elapsedTime;
-  }else{
+  } else {
     ctx.fillText(`GAME OVER`, 400, 400);
-    return;
+    // return;
   }
 
 };
@@ -198,4 +232,7 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 // Let's play this game!
 loadImages();
 setupKeyboardListeners();
+appState = getAppState();
+document.getElementById("high-score").innerHTML = appState.currentHighScore;
+document.getElementById("best-player").innerHTML = appState.bestPlayer;
 main();

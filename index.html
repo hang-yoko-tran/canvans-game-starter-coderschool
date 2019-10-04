@@ -9,11 +9,26 @@
 
 <body>
   <div class="elements">
-    <h3 id="score">0</h3>
-    <h3 id="timer"></h3>
-    <button id=>Reset Game</button>
+    <div>
+      <h2>SCORE</h2>
+      <h3 id="score">0</h3>
+    </div>
+    <div>
+      <h2>TIMER</h2>
+      <h3 id="timer"></h3>
+    </div>
+    <div>
+      <h2>HIGH SCORE</h2>
+      <span id="high-score">0</span><span id="best-player">0</span>
+    </div>
+    <div>
+      <h2 class="user-name" id="take-username" >USER NAME</h2>
+      <input type="text" id="user-name">
+      <button id="btn-signin" onclick="signIn()">Sign In</button>
+    </div>
+    <button onclick= "reset()" id='btn-reset'>Start Over</button>
   </div>
-  <script src="game.js"></script>
-</body>
-
+  <div id="canvas"></div>
 </html>
+<script src="game.js"></script>
+</body>
