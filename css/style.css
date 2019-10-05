@@ -1,5 +1,9 @@
+*{
+    font-family: poppins;
+}
+
 .elements{
-    background-color: #F5F7F7;
+    background-color: #F57CA0;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -32,4 +36,8 @@ input{
 #high-score{
     font-size: 15px;
     margin-right: 15px;
+}
+
+.h-score{
+    margin-top: -3px;
 }
