@@ -191,7 +191,7 @@ function reset() {
  * This function, render, runs as often as possible.
  */
 var render = function () {
-  ctx.font = "16px ArialÏ"
+  ctx.font = "16px  poppins"
   if (elapsedTime < SECONDS_PER_ROUND) {
     if (bgReady) {
       ctx.drawImage(bgImage, 0, 0);
@@ -202,7 +202,7 @@ var render = function () {
     if (monsterReady) {
       ctx.drawImage(monsterImage, monsterX, monsterY);
     }
-    ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 10, 10);
+    ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 30);
     document.getElementById("timer").innerHTML = 30 - elapsedTime;
   } else {
     ctx.fillText(`GAME OVER`, 400, 400);
