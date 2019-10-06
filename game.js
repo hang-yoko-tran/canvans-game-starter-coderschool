@@ -69,7 +69,7 @@ function loadImages() {
     // show the monster image
     monsterReady = true;
   };
-  monsterImage.src = "images/monster.png";
+  monsterImage.src = "images/moon.png";
 }
 
 /** 
